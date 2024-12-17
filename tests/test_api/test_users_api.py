@@ -113,7 +113,7 @@ async def test_login_user_not_found(async_client):
     }
     response = await async_client.post("/login/", data=urlencode(form_data), headers={"Content-Type": "application/x-www-form-urlencoded"})
     assert response.status_code == 401
-    assert "Incorrect email or password." in response.json().get("detail", "")
+    assert "Incorrect credentials." in response.json().get("detail", "")
 
 @pytest.mark.asyncio
 async def test_login_incorrect_password(async_client, verified_user):
@@ -123,7 +123,7 @@ async def test_login_incorrect_password(async_client, verified_user):
     }
     response = await async_client.post("/login/", data=urlencode(form_data), headers={"Content-Type": "application/x-www-form-urlencoded"})
     assert response.status_code == 401
-    assert "Incorrect email or password." in response.json().get("detail", "")
+    assert "Incorrect credentials." in response.json().get("detail", "")
 
 @pytest.mark.asyncio
 async def test_login_unverified_user(async_client, unverified_user):
@@ -160,7 +160,7 @@ async def test_update_user_github(async_client, admin_user, admin_token):
 
 @pytest.mark.asyncio
 async def test_update_user_linkedin(async_client, admin_user, admin_token):
-    updated_data = {"linkedin_profile_url": "http://www.linkedin.com/kaw393939"}
+    updated_data = {"linkedin_profile_url": "http://www.linkedin.com/in/kaw393939"}
     headers = {"Authorization": f"Bearer {admin_token}"}
     response = await async_client.put(f"/users/{admin_user.id}", json=updated_data, headers=headers)
     assert response.status_code == 200
